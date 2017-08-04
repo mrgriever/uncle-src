@@ -11,8 +11,7 @@ class Api
     {
         $this->app = new Micro();
 
-        $appRoutes = Router::getRoutes();
-        foreach ($appRoutes as $route) {
+        foreach (Router::getRoutes() as $route) {
             $this->app->mount($route);
         }
 
@@ -41,6 +40,7 @@ class Api
 
         // successful controller action results are json-encoded before return to the user
         $this->app->after(function () {
+            $returnValue = $this->app->getReturnedValue();
             $this->app->response->setStatusCode(200, 'OK');
             $this->app->response->setHeader('Content-Type', 'application/json');
             if (!empty($returnValue)) {
