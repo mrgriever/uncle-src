@@ -1,6 +1,8 @@
 <?php namespace Uncle;
 
-use Phalcon\Mvc\Micro;
+use Phalcon\Mvc\Micro;use Phalcon\Di\FactoryDefault;
+use Phalcon\Config\Adapter\Ini as IniConfig;
+use Phalcon\Db\Adapter\Pdo\Mysql as PdoMysql;
 use Uncle\Libs\Router;
 
 class Api
@@ -9,7 +11,20 @@ class Api
 
     public function __construct()
     {
-        $this->app = new Micro();
+        // initialize the PDO connection to inject in the application
+        $di = new FactoryDefault();
+        $di->set('db', function() {
+            $db = new IniConfig(__DIR__ . '/Configs/database.ini');
+            return new PdoMysql([
+                'host'      => $db->default->hostname,
+                'username'  => $db->default->username,
+                'password'  => $db->default->password,
+                'dbname'    => $db->default->schema,
+                'charset'   => $db->default->charset,
+            ]);
+        });
+
+        $this->app = new Micro($di);
 
         foreach (Router::getRoutes() as $route) {
             $this->app->mount($route);

@@ -28,6 +28,9 @@ class Router
             'trust' => [
                 (object)['method' => 'get', 'path' => '/', 'action' => 'index'],
             ],
+            'adminUsers' => [
+                (object)['method' => 'get', 'path' => '/', 'action' => 'index'],
+            ],
         ];
     }
 }

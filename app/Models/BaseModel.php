@@ -1,13 +1,13 @@
-<?php namespace Uncle\Controllers;
+<?php namespace Uncle\Models;
 
-use Phalcon\Mvc\Controller;
+use Phalcon\Mvc\Model as PhalconModel;
 use Phalcon\Config\Adapter\Ini as IniConfig;
 
-class BaseController extends Controller
+class BaseModel extends PhalconModel
 {
     protected static $config;
 
-    public function onConstruct()
+    public function initialize()
     {
         self::$config = new IniConfig(__DIR__ . '/../Configs/application.ini');
     }
