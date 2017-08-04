@@ -1,0 +1,6 @@
+[default]
+hostname    = '10.0.2.2'
+username    = 'username'
+password    = 'password'
+schema      = 'Younique'
+charset     = 'utf8'
